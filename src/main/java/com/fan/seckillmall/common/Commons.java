@@ -7,4 +7,5 @@ package com.fan.seckillmall.common;
 public interface Commons {
     String TOKEN = "token";
     String TOKEN_ID = "token_%s";
+    String HTML_LIST = "html_list";
 }
