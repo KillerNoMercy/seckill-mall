@@ -2,16 +2,13 @@ package com.fan.seckillmall.service;
 
 import com.fan.seckillmall.pojo.Goods;
 import com.fan.seckillmall.pojo.SeckillGoods;
-import com.fan.seckillmall.repository.GoodsRepo;
 import com.fan.seckillmall.repository.SeckillGoodsRepo;
 import com.fan.seckillmall.vo.SeckillGoodsVO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 /**
@@ -21,7 +18,7 @@ import java.util.Optional;
 @Service
 public class SeckillGoodsService {
     @Autowired
-    private GoodsRepo goodsRepo;
+    private GoodsService goodsService;
     @Autowired
     private SeckillGoodsRepo seckillGoodsRepo;
 
@@ -29,9 +26,8 @@ public class SeckillGoodsService {
         List<SeckillGoodsVO> seckillGoodsVOList = new ArrayList<>();
         List<SeckillGoods> allSeckillGoods = seckillGoodsRepo.findAll();
         for(SeckillGoods seckillGoods : allSeckillGoods) {
-            Optional<Goods> byId = goodsRepo.findById(seckillGoods.getGoodsId());
-            if(byId.isPresent()) {
-                Goods goods = byId.get();
+            Goods goods = goodsService.getById(seckillGoods.getGoodsId());
+            if(goods != null) {
                 SeckillGoodsVO seckillGoodsVO = this.getSeckillGoodsVO(goods,seckillGoods);
                 seckillGoodsVOList.add(seckillGoodsVO);
             }
@@ -41,8 +37,16 @@ public class SeckillGoodsService {
 
     private SeckillGoodsVO getSeckillGoodsVO(Goods goods, SeckillGoods seckillGoods) {
         SeckillGoodsVO seckillGoodsVO = new SeckillGoodsVO();
-        BeanUtils.copyProperties(goods, seckillGoodsVO);
-        BeanUtils.copyProperties(seckillGoods, seckillGoodsVO);
+        seckillGoodsVO.setId(goods.getId());
+        seckillGoodsVO.setName(goods.getName());
+        seckillGoodsVO.setPrice(goods.getPrice());
+        seckillGoodsVO.setImg(goods.getImg());
+        seckillGoodsVO.setDesc(goods.getDescription());
+        seckillGoodsVO.setSeckillCount(seckillGoods.getSeckillCount());
+        seckillGoodsVO.setSeckillPrice(seckillGoods.getSeckillPrice());
+        seckillGoodsVO.setStartTime(seckillGoods.getStartTime());
+        seckillGoodsVO.setEndTime(seckillGoods.getEndTime());
         return seckillGoodsVO;
     }
+
 }

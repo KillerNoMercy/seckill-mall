@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SeckillGoodsRepo extends JpaRepository<SeckillGoods,String> {
+    SeckillGoods findByGoodsId(String goodsId);
 }

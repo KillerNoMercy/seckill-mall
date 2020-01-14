@@ -17,7 +17,7 @@ public class Goods {
     private String id;
     private String name;
     private Double price;
-    private String desc;
+    private String description;
     private String img;
     private Integer stock;
     private Integer state;

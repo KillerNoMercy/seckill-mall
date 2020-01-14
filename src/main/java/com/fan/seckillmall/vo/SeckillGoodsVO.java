@@ -10,6 +10,7 @@ import java.util.Date;
  */
 @Data
 public class SeckillGoodsVO {
+    private String id;
     private String name;
     private Double price;
     private String desc;
